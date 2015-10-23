@@ -2,8 +2,13 @@ MultApp.Preload = function(game) {
 }
 
 MultApp.Preload.prototype = {
+    preload: function() {
+        game.load.atlasJSONArray('menuButtonPlay', 'assets/img/menuButtonPlay.png', 'assets/img/menuButtonPlay.json');
+	game.load.image('coin', 'assets/img/coin.png');
+    },
+
     create: function() {
-        game.load.image('menuButtonPlay', 'assets/img/menuButtonPlay.png');
+        game.state.start('Menu');
     }
 }
 

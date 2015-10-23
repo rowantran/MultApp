@@ -32,7 +32,7 @@ MultApp.RangeSelect.prototype = {
 
             MultApp.table = multTable(firstRange, secondRange);
 
-            game.state.start('Home.js');
+            game.state.start('Home');
         });
     }   
 }
