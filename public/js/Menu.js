@@ -1,21 +1,39 @@
 MultApp.Menu = function(game) {
-    this.startButton = null;
 }
 
 MultApp.Menu.prototype = {
     create: function() {
-        game.stage.backgroundColor = '#53fc86';
+        $('#input').html('');
         
-        var nameLabel = game.add.text(0, 80, 'Multiplication', {font: '50px Open Sans', fill: '#000'});
-        nameLabel.x = (game.world.width - nameLabel.width) / 2;
-
-        this.startButton = game.add.button(0, game.world.height-80, 'menuButtonPlay', undefined, undefined, undefined, 'menuButtonPlayNormal.png', 'menuButtonPlayPressed.png', undefined);
-        this.startButton.x = (game.world.width - this.startButton.width) / 2;
-        this.startButton.onInputUp.addOnce(this.up, this);
+        this.header();
+        this.fightButton();
+        this.shopButton();
+        showGold();
     },
 
-    up: function() {
+    header: function() {
+        var header = game.add.text(0, 60, 'Menu', {'font': 'bold 50px Open Sans'});
+        header.x = (game.world.width - header.width) / 2;
+    },
+    
+    fightButton: function() {
+        var fightButton = game.add.button(0, 140, 'fightButton', undefined, undefined, undefined, 'fightButtonNormal', 'fightButtonPressed', undefined);
+        fightButton.x = (game.world.width - fightButton.width) / 2;
+        fightButton.onInputUp.addOnce(this.fightButtonPressed);
+    },
+
+    fightButtonPressed: function() {
         game.state.start('RangeSelect');
+    },
+
+    shopButton: function() {
+        var shopButton = game.add.button(0, 180, 'shopButton', undefined, undefined, undefined, 'shopButtonNormal', 'shopButtonPressed', undefined);
+        shopButton.x = (game.world.width - shopButton.width) / 2;
+        shopButton.onInputUp.addOnce(this.shopButtonPressed);
+    },
+
+    shopButtonPressed: function() {
+        game.state.start('Shop');
     }
 }
 

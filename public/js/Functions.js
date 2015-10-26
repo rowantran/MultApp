@@ -1,3 +1,7 @@
+function capitalizeFirstLetter(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
 function multTable(firstRange, secondRange) {
     table = [];
     for (var i = 0; i < firstRange.length; i++) {
@@ -13,4 +17,25 @@ function multTable(firstRange, secondRange) {
     }
 
     return table;
+}
+
+function showGold() {
+    gold = String(MultApp.gold);
+    var goldLabel = game.add.text(0, 550, gold, {font: '20px Open Sans', fill: '#000'});
+    goldLabel.x = game.world.width - goldLabel.x - 50;
+    
+    var coinIcon = game.add.image(0, 540, 'coin');
+    coinIcon.x = goldLabel.x - 40;
+    
+    return [goldLabel, coinIcon];
+}
+
+function menuButton() {
+    var menuButton = game.add.button(0, 20, 'menuButton', undefined, undefined, undefined, 'menuButtonNormal', 'menuButtonPressed', undefined);
+    menuButton.x = game.world.width - menuButton.width - 30;
+    menuButton.onInputUp.addOnce(menuButtonPressed);
+}
+
+function menuButtonPressed() {
+    game.state.start('Menu');
 }

@@ -1,0 +1,13 @@
+monsters = {
+    'slime': {
+        'cost': 0,
+        'key': 'monsterSlime',
+        'scale': 1
+    },
+
+    'stump': {
+        'cost': 15,
+        'key': 'monsterStump',
+        'scale': 2
+    },
+};

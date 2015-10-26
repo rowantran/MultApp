@@ -21,3 +21,8 @@ body {
     width: 800px;
     height: 200px;
 }
+
+#answer {
+    height: 60px;
+    font-size: 24px;
+}

@@ -7,7 +7,11 @@ var MultApp = {
     tableRandom: [],
 
     /* Stats */
-    gold: 0
+    gold: 0,
+
+    /* Settings */
+    monsterActive: 'stump',
+    monstersOwned: ['slime']
 }
 
 MultApp.Boot = function (game) {
@@ -16,6 +20,7 @@ MultApp.Boot = function (game) {
 MultApp.Boot.prototype = {
     create: function() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.physics.arcade.setBoundsToWorld();
 
         game.state.start('Preload');
     }
