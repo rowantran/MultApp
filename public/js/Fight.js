@@ -3,13 +3,15 @@ MultApp.Fight = function (game) {
 
 MultApp.Fight.prototype = {
     problem: function(index) {
+        game.add.sprite(0, 0, 'bgGrass');
+        
         menuButton();
         
 	var goldLabels = showGold();
 	var goldLabel = goldLabels[0];
 	var coinIcon = goldLabels[1];
         var monster = this.renderMonster();
-
+        
         game.physics.arcade.gravity.y = 0;
 	
         problem = MultApp.tableRandom[index];
@@ -93,6 +95,8 @@ MultApp.Fight.prototype = {
     },
     
     create: function() {
+        MultApp.tableFlattened = [];
+        
         for (i = 0; i < MultApp.table.length; i++) {
             for (j = 0; j < MultApp.table[0].length; j++) {
                 MultApp.tableFlattened.push(MultApp.table[i][j]);

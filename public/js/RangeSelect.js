@@ -3,6 +3,8 @@ MultApp.RangeSelect = function() {
 
 MultApp.RangeSelect.prototype = {
     create: function() {
+        game.add.sprite(0, 0, 'bgGrass');
+        
         $('#input').html('<select name="firstFrom" id="firstFrom"></select> - ' +
                           '<select name="firstTo" id="firstTo"></select> &times;' +
                           '<select name="secondFrom" id="secondFrom"></select> - ' +

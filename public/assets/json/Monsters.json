@@ -10,4 +10,16 @@ monsters = {
         'key': 'monsterStump',
         'scale': 2
     },
+
+    'pig': {
+        'cost': 15,
+        'key': 'monsterPig',
+        'scale': 2
+    },
+
+    'mushroom': {
+        'cost': 15,
+        'key': 'monsterMushroom',
+        'scale': 2
+    }
 };

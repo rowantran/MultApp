@@ -10,7 +10,7 @@ var MultApp = {
     gold: 0,
 
     /* Settings */
-    monsterActive: 'stump',
+    monsterActive: 'slime',
     monstersOwned: ['slime']
 }
 
