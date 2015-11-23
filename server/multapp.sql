@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     username TEXT,
     save JSON
 );
