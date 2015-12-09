@@ -12,7 +12,7 @@ MultApp.Preload.prototype = {
         game.load.atlasJSONArray('selectButton', 'assets/img/selectButton.png', 'assets/img/selectButton.json');
 
         /* Backgrounds */
-        game.load.image('bgSplash', 'assets/img/bg/splash.png');
+        game.load.image('bgBase', 'assets/img/bg/base.png');
         game.load.image('bgGrass', 'assets/img/bg/grass.png');
         
         /* Monsters */

@@ -3,6 +3,8 @@ MultApp.Menu = function(game) {
 
 MultApp.Menu.prototype = {
     create: function() {
+        game.add.sprite(0, 0, 'bgBase');
+        
         $('#input').html('');
         
         this.header();

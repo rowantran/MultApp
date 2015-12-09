@@ -3,6 +3,8 @@ MultApp.Shop = function(game) {
 
 MultApp.Shop.prototype = {
     create: function() {
+        game.add.sprite(0, 0, 'bgBase');
+        
         $('#input').html('');
 
         menuButton();
