@@ -157,7 +157,7 @@ userRouter.route('/:username/save')
         if (hmac) {
             if (authUser(username, hmac)) {
                 if (saveData(username, save)) {
-                    res.status(200).end();;
+                    res.status(200).end();
                 } else {
                     res.status(500).end();
                 }
