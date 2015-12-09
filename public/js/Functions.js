@@ -20,7 +20,7 @@ function multTable(firstRange, secondRange) {
 }
 
 function showGold() {
-    gold = String(MultApp.gold);
+    gold = String(MultApp.save.gold);
     var goldLabel = game.add.text(0, 550, gold, {font: '20px Open Sans', fill: '#000'});
     goldLabel.x = game.world.width - goldLabel.x - 50;
     
@@ -38,4 +38,8 @@ function menuButton() {
 
 function menuButtonPressed() {
     game.state.start('Menu');
+}
+
+function serializeSave() {
+    return JSON.stringify(MultApp.save);
 }

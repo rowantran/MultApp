@@ -6,12 +6,13 @@ var MultApp = {
     tableFlattened: [],
     tableRandom: [],
 
-    /* Stats */
-    gold: 0,
+    /* Save */
+    save: {
+        gold: 0,
 
-    /* Settings */
-    monsterActive: 'slime',
-    monstersOwned: ['slime']
+        monsterActive: 'slime',
+        monstersOwned: ['slime']
+    }
 }
 
 MultApp.Boot = function (game) {

@@ -27,9 +27,9 @@ MultApp.Shop.prototype = {
         var costLabel = game.add.text(85, y, String(cost), {font: '30px Open Sans'});
         var nameLabel = game.add.text(costLabel.x + costLabel.width + 20, y, monsterNameCap);
 
-        if (MultApp.monstersOwned.indexOf(monsterName) > -1) {
+        if (MultApp.save.monstersOwned.indexOf(monsterName) > -1) {
             var ownedLabel = game.add.image(500, y, 'monsterOwned');
-            if (MultApp.monsterActive == monsterName) {
+            if (MultApp.save.monsterActive == monsterName) {
                 var selected = game.add.image(570, y, 'monsterSelected');
             } else {
                 var selectButton = game.add.button(570, y, 'selectButton', undefined, undefined, undefined, 'selectButtonNormal', 'selectButtonPressed', undefined);
@@ -47,13 +47,12 @@ MultApp.Shop.prototype = {
     },
 
     buyMonster: function(key) {
-        console.log(Object.keys(monsters)[this.key]);
-        MultApp.monstersOwned.push(Object.keys(monsters)[this.key]);
+        MultApp.save.monstersOwned.push(Object.keys(monsters)[this.key]);
         game.state.start(game.state.current);
     },
 
     selectMonster: function(key) {
-        MultApp.monsterActive = Object.keys(monsters)[this.key];
+        MultApp.save.monsterActive = Object.keys(monsters)[this.key];
         game.state.start(game.state.current);
     }
 }

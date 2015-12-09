@@ -46,8 +46,8 @@ MultApp.Fight.prototype = {
     },
 
     renderMonster: function() {
-        var monster = game.add.sprite(0, 140, monsters[MultApp.monsterActive].key);
-        monster.scale.setTo(monsters[MultApp.monsterActive].scale);
+        var monster = game.add.sprite(0, 140, monsters[MultApp.save.monsterActive].key);
+        monster.scale.setTo(monsters[MultApp.save.monsterActive].scale);
         monster.x = (game.world.width - monster.width) / 2
         
         game.physics.arcade.enable(monster);
@@ -69,8 +69,7 @@ MultApp.Fight.prototype = {
     },
     
     problemCorrect: function(index, problemLabel, monster, goldLabel, coinIcon) {
-        console.log(index);
-        MultApp.gold += 5;
+        MultApp.save.gold += 5;
         this.defeatMonster(index, problemLabel, monster, goldLabel, coinIcon);
     },
 
