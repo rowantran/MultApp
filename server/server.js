@@ -5,11 +5,14 @@
 // ============================================
 
 var express = require('express');
+
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 
 var fs = require('fs');
 var pg = require('pg');
@@ -47,55 +50,48 @@ function getSave(username, req, res) {
     });
 }
 
-function saveData(username, save) {
-    var returnValue = false;
+function saveData(username, save, req, res) {
     pg.connect(CONN_STRING, function (err, client, done) {
         if (!err) {
-            if (userExists(username)) {
-                var storeSave = client.query('UPDATE users SET save = $1 WHERE username = $2', [save, username]);
-                storeSave.on('err', function (err) {
-                    returnValue = false;
-                });
-
-                storeSave.on('end', function (result) {
-                    returnValue = true;
-                });
-            } else {
-                var storeSave = client.query('INSERT INTO users (username, save) VALUES ($1, $2)', [username, save]);
-                storeSave.on('err', function (err) {
-                    returnValue = false;
-                });
-
-                storeSave.on('end', function (result) {
-                    done();
-                    returnValue = true;
-                });
-            }
-        }
-    });
-    return returnValue;
-}
-
-function userExists(username) {
-    var returnValue = true;
-    pg.connect(CONN_STRING, function (err, client, done) {
-        if (!err) {
-            var checkUserExists = client.query('SELECT * FROM users WHERE username = $1', [username]);
-            storeSave.on('err', function (err) {});
-
-            storeSave.on('row', function (row, result) {
-                result.addRow(row);
-            });
-
-            storeSave.on('end', function (result) {
-                done();
-                if (result.rows.length == 0) {
-                    returnValue = false;
+            userExists(username, function (exists) {
+                if (exists) {
+                    var storeSave = client.query('UPDATE users SET save = $1 WHERE username = $2', [save, username]);
+                    
+                    storeSave.on('end', function (result) {
+                        res.status(200).end();
+                    });
+                } else {
+                    var storeSave = client.query('INSERT INTO users (username, save) VALUES ($1, $2)', [username, save]);
+                    
+                    storeSave.on('end', function (result) {
+                        done();
+                        res.status(200).end();
+                    });
                 }
             });
         }
     });
-    return returnValue;
+}
+
+function userExists(username, callback) {
+    // Checks if user exists
+    // Calls callback with one bool argument showing whether user exists
+    
+    pg.connect(CONN_STRING, function (err, client, done) {
+        if (!err) {
+            var checkUserExists = client.query('SELECT * FROM users WHERE username = $1', [username]);
+            checkUserExists.on('err', function (err) {});
+
+            checkUserExists.on('row', function (row, result) {
+                result.addRow(row);
+            });
+
+            checkUserExists.on('end', function (result) {
+                done();
+                callback(result.rows.length > 0);
+            });
+        }
+    });
 }
 
 function authUser(username, hmac) {
@@ -148,7 +144,7 @@ userRouter.route('/:username/save')
         if (req.get('Authentication')) {
             var hmac = req.get('Authentication').split(' ')[1];
         } else {
-            var hmac = true;
+            var hmac = false;
         }
 
         var save = req.body;
@@ -156,11 +152,7 @@ userRouter.route('/:username/save')
 
         if (hmac) {
             if (authUser(username, hmac)) {
-                if (saveData(username, save)) {
-                    res.status(200).end();
-                } else {
-                    res.status(500).end();
-                }
+                saveData(username, save, req, res);
             } else {
                 res.status(403).end();
             }

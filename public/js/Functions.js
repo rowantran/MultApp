@@ -1,3 +1,5 @@
+var SERVER_IP = 'http://localhost:8080';
+
 function capitalizeFirstLetter(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
@@ -40,6 +42,14 @@ function menuButtonPressed() {
     game.state.start('Menu');
 }
 
-function serializeSave() {
-    return JSON.stringify(MultApp.save);
-}
+function uploadSave(save) {
+    $.ajax({
+        url: SERVER_IP + '/user/test/save',
+        type: 'post',
+        data: save,
+        headers: {
+            'Authentication': 'hmac blank'
+        },
+        dataType: 'json'
+    });
+};

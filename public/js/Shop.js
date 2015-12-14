@@ -14,6 +14,8 @@ MultApp.Shop.prototype = {
         var coinIcon = goldLabels[1];
 
         this.renderMonsterListing(0, 60);
+
+        uploadSave(MultApp.save);
     },
 
     renderMonsterListing: function(key, y) {
