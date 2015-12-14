@@ -42,14 +42,31 @@ function menuButtonPressed() {
     game.state.start('Menu');
 }
 
-function uploadSave(save) {
+function userExists(username, callback) {
+    var getUser = $.ajax({
+        url: SERVER_IP + '/user/' + username + '/save',
+        type: 'get',
+        headers: {
+            'Authorization': 'hmac blank'
+        }
+    });
+    
+    getUser.always(function() {
+        callback(getUser.status != 404);
+    });
+}
+
+function uploadSave(username, save) {
     $.ajax({
-        url: SERVER_IP + '/user/test/save',
+        url: SERVER_IP + '/user/' + username + '/save',
         type: 'post',
         data: save,
         headers: {
-            'Authentication': 'hmac blank'
+            'Authorization': 'hmac blank'
         },
         dataType: 'json'
     });
-};
+}
+
+function loadSave() {
+}

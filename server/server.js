@@ -28,24 +28,30 @@ var LOG_FILE = 'server.log';
 // ============================================
 
 function getSave(username, req, res) {
-    pg.connect(CONN_STRING, function (err, client, done) {
-        if (!err) {
-            var fetchSave = client.query('SELECT save FROM users WHERE username = $1', [username]);
-            fetchSave.on('err', function (err) {
-                res.status(500).end();
-            });
-
-            fetchSave.on('row', function (row, result) {
-                result.addRow(row);
-            });
-
-            fetchSave.on('end', function (result) {
-                done();
-                var save = result.rows[0].save;
-                res.status(200).send(save);
+    userExists(username, function (exists) {
+        if (exists) {
+            pg.connect(CONN_STRING, function (err, client, done) {
+                if (!err) {
+                    var fetchSave = client.query('SELECT save FROM users WHERE username = $1', [username]);
+                    fetchSave.on('err', function (err) {
+                        res.status(500).end();
+                    });
+                    
+                    fetchSave.on('row', function (row, result) {
+                        result.addRow(row);
+                    });
+                    
+                    fetchSave.on('end', function (result) {
+                        done();
+                        var save = result.rows[0].save;
+                        res.status(200).send(save);
+                    });
+                } else {
+                    res.status(500).end();
+                }
             });
         } else {
-            res.status(500).end();
+            res.status(404).end();
         }
     });
 }
@@ -120,8 +126,8 @@ var userRouter = express.Router();
 userRouter.route('/:username/save')
     .get(function (req, res) {
         var username = req.params.username;
-        if (req.get('Authentication')) {
-            var hmac = req.get('Authentication').split(' ')[1];
+        if (req.get('Authorization')) {
+            var hmac = req.get('Authorization').split(' ')[1];
         } else {
             var hmac = false;
         }
@@ -141,8 +147,8 @@ userRouter.route('/:username/save')
 
     .post(function (req, res) {
         var username = req.params.username;
-        if (req.get('Authentication')) {
-            var hmac = req.get('Authentication').split(' ')[1];
+        if (req.get('Authorization')) {
+            var hmac = req.get('Authorization').split(' ')[1];
         } else {
             var hmac = false;
         }

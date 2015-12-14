@@ -2,6 +2,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas');
 
 var MultApp = {
     /* Store table variable created during RangeSelect */
+    username: null,
     table: [],
     tableFlattened: [],
     tableRandom: [],

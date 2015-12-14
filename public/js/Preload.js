@@ -29,7 +29,7 @@ MultApp.Preload.prototype = {
     },
 
     create: function() {
-        game.state.start('Splash');
+        game.state.start('Login');
     }
 }
 

@@ -4,8 +4,10 @@ MultApp.Splash = function(game) {
 
 MultApp.Splash.prototype = {
     create: function() {
-        game.add.sprite(0, 0, 'bgBase');
+        $('#input').html('');
         
+        game.add.sprite(0, 0, 'bgBase');
+
         var nameLabel = game.add.text(0, 80, 'Multiplication', {font: '50px Open Sans', fill: '#000'});
         nameLabel.x = (game.world.width - nameLabel.width) / 2;
 
