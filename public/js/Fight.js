@@ -33,7 +33,7 @@ MultApp.Fight.prototype = {
 	    if (MultApp.Fight.prototype.checkAnswer(index, $('#answer').val())) {
                 MultApp.Fight.prototype.problemCorrect(index, problemLabel, monster, goldLabel, coinIcon);
 	    } else {
-	        MultApp.Fight.prototype.endProblem(index, problemLabel, monster, goldLabel, coinIcon);
+	        MultApp.Fight.prototype.monsterFall(index, problemLabel, monster, goldLabel, coinIcon, false);
             }
         });
     },
@@ -55,35 +55,35 @@ MultApp.Fight.prototype = {
         return monster;
     },
 
-    defeatMonster: function(index, problemLabel, monster, goldLabel, coinIcon) {
+    monsterFall: function(index, problemLabel, monster, goldLabel, coinIcon, defeated) {
         game.physics.arcade.gravity.y = 600;
         monster.checkWorldBounds = true;
+
+	if (defeated) {
+	    var correct = game.add.text(0, 500, 'CORRECT!', {'font': '40px Open Sans bold'});
+	    correct.x = (game.world.width - correct.width) / 2;
+	} else {
+	    var incorrect = game.add.text(0, 500, 'INCORRECT', {'font': '40px Open Sans bold'});
+	    incorrect.x = (game.world.width - incorrect.width) / 2;
+	}
+
+	var monster = this.renderMonster();
+	monster.checkWorldBounds = true;
 
         this.index = index;
         this.problemLabel = problemLabel;
         this.monster = monster;
         this.goldLabel = goldLabel;
         this.coinIcon = coinIcon;
-        this.defeated = true;
-        monster.events.onOutOfBounds.addOnce(this.endProblemDefeated, this);
+        monster.events.onOutOfBounds.addOnce(this.endProblem, this);
     },
     
     problemCorrect: function(index, problemLabel, monster, goldLabel, coinIcon) {
         MultApp.save.gold += 5;
-        this.defeatMonster(index, problemLabel, monster, goldLabel, coinIcon);
-    },
-
-    endProblem: function(index, problemLabel, monster, goldLabel, coinIcon) {
-        if (index+1 < MultApp.tableRandom.length) {
-            problemLabel.destroy();
-            monster.destroy();
-	    goldLabel.destroy();
-	    coinIcon.destroy();
-            this.problem(index+1);
-        }
+        this.monsterFall(index, problemLabel, monster, goldLabel, coinIcon, true);
     },
     
-    endProblemDefeated: function() {
+    endProblem: function() {
         if (this.index+1 < MultApp.tableRandom.length) {
             this.problemLabel.destroy();
             this.monster.destroy();
