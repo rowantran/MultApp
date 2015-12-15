@@ -1,4 +1,4 @@
-var SERVER_IP = 'http://localhost:8080';
+var SERVER_IP = 'http://10.122.200.5:8080';
 
 function capitalizeFirstLetter(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
