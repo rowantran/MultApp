@@ -20,7 +20,7 @@ var pg = require('pg');
 // Config
 // ============================================
 
-var CONN_STRING = 'pg://rj:Mw88itbg@localhost/multapp';
+var CONN_STRING = 'pg://room601:ledesma@localhost/multapp';
 var SERVER_PORT = 8080;
 var LOG_FILE = 'server.log';
 
