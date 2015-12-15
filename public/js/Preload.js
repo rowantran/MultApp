@@ -8,6 +8,7 @@ MultApp.Preload.prototype = {
         game.load.atlasJSONArray('menuButton', 'assets/img/menuButton.png', 'assets/img/menuButton.json');
         game.load.atlasJSONArray('fightButton', 'assets/img/fightButton.png', 'assets/img/fightButton.json');
         game.load.atlasJSONArray('shopButton', 'assets/img/shopButton.png', 'assets/img/shopButton.json');
+        game.load.atlasJSONArray('saveButton', 'assets/img/saveButton.png', 'assets/img/saveButton.json');
         game.load.atlasJSONArray('buyButton', 'assets/img/buyButton.png', 'assets/img/buyButton.json');
         game.load.atlasJSONArray('selectButton', 'assets/img/selectButton.png', 'assets/img/selectButton.json');
 
@@ -23,6 +24,7 @@ MultApp.Preload.prototype = {
 
         /* Others */
 	game.load.image('coin', 'assets/img/coin.png');
+        game.load.image('buyButtonGray', 'assets/img/buyButtonGray.png');
         game.load.image('monsterOwned', 'assets/img/owned.png');
         game.load.image('monsterNotOwned', 'assets/img/notOwned.png');
         game.load.image('monsterSelected', 'assets/img/monsterSelected.png');

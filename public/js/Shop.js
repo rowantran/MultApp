@@ -28,6 +28,8 @@ MultApp.Shop.prototype = {
         var nameLabel = game.add.text(costLabel.x + costLabel.width + 20, y, monsterNameCap);
 
         if (MultApp.save.monstersOwned.indexOf(monsterName) > -1) {
+            /* Monster owned */
+            
             var ownedLabel = game.add.image(500, y, 'monsterOwned');
             if (MultApp.save.monsterActive == monsterName) {
                 var selected = game.add.image(570, y, 'monsterSelected');
@@ -36,9 +38,14 @@ MultApp.Shop.prototype = {
                 selectButton.onInputUp.addOnce(this.selectMonster, {key: key});
             }
         } else {
-            var ownedLabel = game.add.image(500, y, 'monsterNotOwned');
-            var buyButton = game.add.button(570, y, 'buyButton', undefined, undefined, undefined, 'buyButtonNormal', 'buyButtonPressed', undefined);
-            buyButton.onInputUp.addOnce(this.buyMonster, {key: key});
+            /* Monster available to buy */
+            if (MultApp.save.gold >= cost) {
+                game.add.image(500, y, 'monsterNotOwned');
+                var buyButton = game.add.button(570, y, 'buyButton', undefined, undefined, undefined, 'buyButtonNormal', 'buyButtonPressed', undefined);
+                buyButton.onInputUp.addOnce(this.buyMonster, {key: key});
+            } else {
+                game.add.image(570, y, 'buyButtonGray');
+            }
         }
         
         if (key+1 < _.size(monsters)) {

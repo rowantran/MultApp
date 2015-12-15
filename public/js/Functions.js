@@ -68,5 +68,17 @@ function uploadSave(username, save) {
     });
 }
 
-function loadSave() {
+function loadSave(username, callback) {
+    var getSave = $.ajax({
+        url: SERVER_IP + '/user/' + username + '/save',
+        type: 'get',
+        headers: {
+            'Authorization': 'hmac blank'
+        },
+        dataType: 'json'
+    });
+
+    getSave.done(function(data, textStatus, jqXHR) {
+        callback(data);
+    });
 }

@@ -18,11 +18,15 @@ MultApp.Login.prototype = {
     login: function() {
         var username = $('#username').val();
         userExists(username, function(exists) {
-            if (exists) {
-                MultApp.save = loadSave(username);
-            }
             MultApp.username = username;
-            game.state.start('Splash');
+            if (exists) {
+                loadSave(username, function(save) {
+                    MultApp.save = save;
+                    game.state.start('Splash');
+                });
+            } else {
+                game.state.start('Splash');
+            }
         });
     }
 }

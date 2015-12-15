@@ -10,6 +10,7 @@ MultApp.Menu.prototype = {
         this.header();
         this.fightButton();
         this.shopButton();
+        this.saveButton();
         showGold();
     },
 
@@ -36,6 +37,16 @@ MultApp.Menu.prototype = {
 
     shopButtonPressed: function() {
         game.state.start('Shop');
+    },
+
+    saveButton: function() {
+        var saveButton = game.add.button(0, 220, 'saveButton', undefined, undefined, undefined, 'saveButtonNormal', 'saveButtonPressed', undefined);
+        saveButton.x = (game.world.width - saveButton.width) / 2;
+        saveButton.onInputUp.add(this.saveButtonPressed);
+    },
+
+    saveButtonPressed: function() {
+        uploadSave(MultApp.username, MultApp.save);
     }
 }
 

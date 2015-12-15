@@ -154,6 +154,7 @@ userRouter.route('/:username/save')
         }
 
         var save = req.body;
+        save.gold = parseInt(save.gold);
         writeLog('Storing save for user ' + username);
 
         if (hmac) {
