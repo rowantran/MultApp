@@ -42,7 +42,7 @@ MultApp.Shop.prototype = {
             if (MultApp.save.gold >= cost) {
                 game.add.image(500, y, 'monsterNotOwned');
                 var buyButton = game.add.button(570, y, 'buyButton', undefined, undefined, undefined, 'buyButtonNormal', 'buyButtonPressed', undefined);
-                buyButton.onInputUp.addOnce(this.buyMonster, {key: key});
+                buyButton.onInputUp.addOnce(this.buyMonster, {key: key, cost: cost});
             } else {
                 game.add.image(570, y, 'buyButtonGray');
             }
@@ -53,8 +53,9 @@ MultApp.Shop.prototype = {
         }
     },
 
-    buyMonster: function(key) {
+    buyMonster: function() {
         MultApp.save.monstersOwned.push(Object.keys(monsters)[this.key]);
+	MultApp.save.gold -= this.cost;
         game.state.start(game.state.current);
     },
 
