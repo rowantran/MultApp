@@ -18,7 +18,7 @@ monsters = {
     },
 
     'mushroom': {
-        'cost': 15,
+        'cost': 25,
         'key': 'monsterMushroom',
         'scale': 2
     }
