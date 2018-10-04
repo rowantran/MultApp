@@ -15,14 +15,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 var fs = require('fs');
-var pg = require('pg');
+const sqlite3 = require('sqlite3');
 
 // Config
 // ============================================
 
-var CONN_STRING = 'pg://rj:Mw88itbg@localhost/multapp';
+var CONN_STRING = 'game.db';
 var SERVER_PORT = 8080;
 var LOG_FILE = 'server.log';
+
+let db = new sqlite3.Database(CONN_STRING);
 
 // Functions
 // ============================================
@@ -30,7 +32,17 @@ var LOG_FILE = 'server.log';
 function getSave(username, req, res) {
     userExists(username, function (exists) {
         if (exists) {
-            pg.connect(CONN_STRING, function (err, client, done) {
+            let stmt = db.prepare('SELECT save FROM users WHERE username = (?)');
+            stmt.get(username, function (err, row) {
+                if (!err) {
+                    stmt.finalize();
+                    res.status(200).send(row.save);
+                } else {
+                    res.status(500).end();
+                }
+            });
+            /*
+            db.get('SELECT save FROM users WHERE username = $1', function (err, client, done) {
                 if (!err) {
                     var fetchSave = client.query('SELECT save FROM users WHERE username = $1', [username]);
                     fetchSave.on('err', function (err) {
@@ -49,7 +61,7 @@ function getSave(username, req, res) {
                 } else {
                     res.status(500).end();
                 }
-            });
+            }); */
         } else {
             res.status(404).end();
         }
@@ -57,22 +69,20 @@ function getSave(username, req, res) {
 }
 
 function saveData(username, save, req, res) {
-    pg.connect(CONN_STRING, function (err, client, done) {
-        if (!err) {
-            userExists(username, function (exists) {
-                if (exists) {
-                    var storeSave = client.query('UPDATE users SET save = $1 WHERE username = $2', [save, username]);
-                    
-                    storeSave.on('end', function (result) {
-                        res.status(200).end();
-                    });
-                } else {
-                    var storeSave = client.query('INSERT INTO users (username, save) VALUES ($1, $2)', [username, save]);
-                    
-                    storeSave.on('end', function (result) {
-                        done();
-                        res.status(200).end();
-                    });
+    userExists(username, function (exists) {
+        if (exists) {
+            let stmt = db.prepare('UPDATE users SET save = (?) WHERE username = (?)');
+            stmt.run(save, username, function (err) {
+                if (!err) {
+                    res.status(200).end();
+                }
+            });
+        } else {
+            let stmt = db.prepare('INSERT INTO users (username, save) VALUES (?, ?)');
+            stmt.run(username, save, function (err) {
+                if (!err) {
+                    stmt.finalize();
+                    res.status(200).end();
                 }
             });
         }
@@ -83,19 +93,15 @@ function userExists(username, callback) {
     // Checks if user exists
     // Calls callback with one bool argument showing whether user exists
     
-    pg.connect(CONN_STRING, function (err, client, done) {
+    let stmt = db.prepare('SELECT * FROM users WHERE username = (?)');
+    stmt.get(username, function (err, row) {
         if (!err) {
-            var checkUserExists = client.query('SELECT * FROM users WHERE username = $1', [username]);
-            checkUserExists.on('err', function (err) {});
-
-            checkUserExists.on('row', function (row, result) {
-                result.addRow(row);
-            });
-
-            checkUserExists.on('end', function (result) {
-                done();
-                callback(result.rows.length > 0);
-            });
+            stmt.finalize();
+            if (row) {
+                callback(true);
+            } else {
+                callback(false);
+            }
         }
     });
 }
